@@ -1,18 +1,18 @@
 server:
   port: 9400
 sftp.server:
-  host: localhost
+  host: '192.168.1.6'#My mac address
   order:
-    remotePath: "/outgoing"
-  password: b2s
+    remotePath: "/outgoing/"
+  password: Gbs02378
   port: 22
   update:
     deleteRemoteFiles: true
-    filterExpr: "^.*.dat$"
+    filterExpr: "^.*.txt"
     localPath: "./build/sftp/incoming"
     pollingFrequency: 1000
-    remotePath: "/incoming"
-  user: user
+    remotePath: "/Users/Ganesan/incoming"
+  user: Ganesan
 
 management:
   endpoints:

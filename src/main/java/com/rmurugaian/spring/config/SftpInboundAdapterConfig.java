@@ -35,8 +35,8 @@ public class SftpInboundAdapterConfig {
     private final FileProcessor fileProcessor;
 
     public SftpInboundAdapterConfig(
-        final SessionFactory<ChannelSftp.LsEntry> sftpSessionFactory,
-        final FileProcessor fileProcessor) {
+            final SessionFactory<ChannelSftp.LsEntry> sftpSessionFactory,
+            final FileProcessor fileProcessor) {
 
         this.sftpSessionFactory = sftpSessionFactory;
         this.fileProcessor = fileProcessor;
@@ -50,22 +50,20 @@ public class SftpInboundAdapterConfig {
         }
 
         return IntegrationFlows
-            .from(
-                Sftp.inboundAdapter(sftpSessionFactory)
-                    .preserveTimestamp(true)
-                    .deleteRemoteFiles(true)
-                    .regexFilter(update.filterExpr)
-                    .localDirectory(new File(update.localPath))
-                    .autoCreateLocalDirectory(true)
-                    .remoteDirectory(update.remotePath),
-                e -> {
-                    e.id("sftpInboundAdapter")
-                        .autoStartup(true)
-                        .poller(Pollers.fixedRate(update.pollingFrequency)
-                            .maxMessagesPerPoll(1));
-                })
-            .channel(updateFileChannel())
-            .get();
+                .from(
+                        Sftp.inboundAdapter(sftpSessionFactory)
+                                .preserveTimestamp(true)
+                                .deleteRemoteFiles(true)
+                                .regexFilter(update.filterExpr)
+                                .localDirectory(new File(update.localPath))
+                                .autoCreateLocalDirectory(true)
+                                .remoteDirectory(update.remotePath),
+                        e -> e.id("sftpInboundAdapter")
+                                .autoStartup(true)
+                                .poller(Pollers.fixedRate(update.pollingFrequency)
+                                        .maxMessagesPerPoll(1)))
+                .channel(updateFileChannel())
+                .get();
     }
 
     @Bean
@@ -76,8 +74,8 @@ public class SftpInboundAdapterConfig {
     @Bean
     public IntegrationFlow orderUpdateFlow() {
         return IntegrationFlows.from(updateFileChannel())
-            .handle(fileProcessor, "handleUpdate")
-            .get();
+                .handle(fileProcessor, "handleUpdate")
+                .get();
     }
 
     private static class SftpAdapterConfig {
