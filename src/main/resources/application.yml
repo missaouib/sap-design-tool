@@ -1,0 +1,21 @@
+server:
+  port: 9400
+sftp.server:
+  host: localhost
+  order:
+    remotePath: "/outgoing"
+  password: b2s
+  port: 22
+  update:
+    deleteRemoteFiles: true
+    filterExpr: "^.*.dat$"
+    localPath: "./build/sftp/incoming"
+    pollingFrequency: 1000
+    remotePath: "/incoming"
+  user: user
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
